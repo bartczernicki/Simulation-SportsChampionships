@@ -1,0 +1,91 @@
+﻿@page "/1959to1969"
+@inject IJSRuntime JSRuntime
+
+<!-- Create a div where the graph will take place -->
+<div id="dataVizPlayoffs" style="clear: both;">
+</div>
+<p/>
+<div id="dataVizChampionships" style="clear: both;">
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Is PlayOff Team</th>
+            <th>Is Playoff Team With Bye</th>
+            <th>Is Championship Team</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var seasonYear in basketballSeasons)
+        {
+            <tr>
+                <td>@seasonYear</td>
+                <td>@( (double) simulatedDecades.Where(a => a.SeasonStartYear == seasonYear && a.IsPlayoffTeam).Count()/ numberOfSimulations)</td>
+                <td>@( (double) simulatedDecades.Where(a => a.SeasonStartYear == seasonYear && a.IsPlayoffTeamWithBye).Count()/ numberOfSimulations)</td>
+                <td>@( (double) simulatedDecades.Where(a => a.SeasonStartYear == seasonYear && a.IsChampionshipWinningTeam).Count()/numberOfSimulations)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-primary" @onclick="SimulateBasketBallSeason">Click me</button>
+<button class="btn btn-primary" @onclick="SimulateDecade">Simulate decade (1000 times)</button>
+
+@code {
+
+    private int numberOfSimulations = 1000;
+
+    public bool isPlayoffTeam { get; set; } = false;
+    public bool isPlayoffTeamWithBye { get; set; } = false;
+    public bool isChampionshipWinningTeam { get; set; } = false;
+
+    List<int> basketballSeasons =
+        Enumerable.Range(1959, 10).ToList();
+    private List<Simulation.SimulationOutcome> simulationOutComes = new List<Simulation.SimulationOutcome>();
+    private List<Simulation.SimulationOutcome> simulatedDecades = new List<Simulation.SimulationOutcome>();
+
+    private List<int> playoffsCount = new List<int>();
+    private List<int> championshipsCount = new List<int>();
+
+    private void SimulateBasketBallSeason()
+    {
+        Console.WriteLine("Simulate Basketball Season");
+        var basketBallSimulationOutCome = Simulation.BaketBallSeasonSimulation.GetBaskeBallSeasonSimulationOutcome(1960);
+        this.isPlayoffTeam = basketBallSimulationOutCome.IsPlayoffTeam;
+        this.isPlayoffTeamWithBye = basketBallSimulationOutCome.IsPlayoffTeamWithBye;
+        this.isChampionshipWinningTeam = basketBallSimulationOutCome.IsChampionshipWinningTeam;
+
+        simulationOutComes.Add(basketBallSimulationOutCome);
+    }
+
+    private async Task SimulateDecade()
+    {
+        this.simulatedDecades = new List<Simulation.SimulationOutcome>();
+
+        for (int i = 0; i != numberOfSimulations; i++)
+        {
+            var simulatedDecade = basketballSeasons.Select(year => Simulation.BaketBallSeasonSimulation.GetBaskeBallSeasonSimulationOutcome(year)).ToList();
+            simulatedDecades.AddRange(simulatedDecade);
+
+            // Count playoffs and championships for each simulation
+            var playOffCount = simulatedDecade.Where(a => a.IsPlayoffTeam).Count();
+            this.playoffsCount.Add(playOffCount);
+
+            var championshipCount = simulatedDecade.Where(a => a.IsChampionshipWinningTeam).Count();
+            this.championshipsCount.Add(championshipCount);
+        }
+
+        await this.RenderCharts();
+    }
+
+    private async Task RenderCharts()
+    {
+        var playoffsCountMean = Math.Round(this.playoffsCount.Average(), 2, MidpointRounding.AwayFromZero);
+        var championshipsCountMean = Math.Round(this.championshipsCount.Average(), 2, MidpointRounding.AwayFromZero);
+
+        await JSRuntime.InvokeVoidAsync("createD3SvgObject", this.playoffsCount, playoffsCountMean, "dataVizPlayoffs", "Playoff Appearances");
+        await JSRuntime.InvokeVoidAsync("createD3SvgObject", this.championshipsCount, championshipsCountMean, "dataVizChampionships", "Championships Won");
+    }
+}
