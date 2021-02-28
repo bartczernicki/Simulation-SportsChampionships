@@ -3,13 +3,13 @@
 
 <label>Choose a sport decade to simulate:</label>
 <select @onchange="@SelectedDecadeChanged">
-  <option value="NBA1960s">NBA: 1959 - 1968 (10 Years)</option>
-  <option value="NBA2010s">NBA: 2009 - 2018 (10 Years)</option>
-  <option value="NFL2010s">NFL: 2009 - 2018 (10 Years)</option>
+  <option value="NBA1960s">NBA: 1959 - 1969 (10 Years)</option>
+  <option value="NBA2010s">NBA: 2011 - 2021 (10 Years)</option>
+  <option value="NFL2010s">NFL: 2011 - 2021 (10 Years)</option>
 </select>
-<br />
-<button class="btn btn-primary" @onclick="SimulateSportsDecade">Re-Simulate Decade (1,000 times)</button>
-<br />
+
+<button class="btn btn-primary px-2 p-1 mt-2 mb-2" @onclick="SimulateSportsDecade">Re-Simulate Decade (1,000 times)</button>
+
 <div class="card" style="min-height: 0px;">
     <div class="containerHeader">
         <div class="fixedHeader">
@@ -55,7 +55,7 @@
                 @buttonChampionships
             </button>
         </div>
-        <span class="verticalHeader">Championships</span>
+        <span class="verticalHeader">Championships Won</span>
     </div>
     <div class="@cardDetailsStyleChampionships">
         <div class="g-predictionChart">
@@ -157,10 +157,10 @@
                 seasonYears = Enumerable.Range(1959, 10).ToList();
                 break;
             case "NBA2010s":
-                seasonYears = Enumerable.Range(2009, 10).ToList();
+                seasonYears = Enumerable.Range(2011, 10).ToList();
                 break;
             case "NFL2010s":
-                seasonYears = Enumerable.Range(2009, 10).ToList();
+                seasonYears = Enumerable.Range(2011, 10).ToList();
                 break;
         };
 
@@ -212,6 +212,27 @@
         }
 
         return sportsLeague;
+    }
+
+    protected string GetSportsLeagueDecadeLegend(string selectedSportsDecade)
+    {
+        var playerName = string.Empty;
+
+        switch (selectedSportsDecade)
+        {
+            case "NBA1960s":
+                playerName = "Bill Russell";
+                break;
+            case "NBA2010s":
+                playerName = "Lebron James";
+                break;
+            case "NFL2010s":
+                playerName = "Tom Brady";
+                break;
+        }
+
+
+        return playerName;
     }
 
     protected string FormatProbability(double probability)
