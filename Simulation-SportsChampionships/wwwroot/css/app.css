@@ -189,7 +189,7 @@ showMeButton:focus {
     height: auto;
     opacity: 1;
     transition: height 0ms 0ms, opacity 1s 0ms;
-    padding: 10px 5px 10px 14px;
+    padding: 10px 5px 10px 0px;
 }
 
 .verticalHeader {
@@ -212,9 +212,13 @@ h5 {
     color: #333;
 }
 
+.g-prediction-header {
+    text-align: left;
+}
+
 .g-prediction-row {
-    color: #000;
-    background: hsl(204, 26%, 94%);
+/*    color: #000;
+    background: hsl(204, 26%, 94%);*/
 }
 
 table {
@@ -224,8 +228,8 @@ table {
     font-size: 12px;
     line-height: 24px;
     color: #999;
-    border-top: solid 1px #dedede;
     margin-bottom: 20px;
+    text-align: right;
 }
 
 .g-prediction-true {
@@ -242,17 +246,18 @@ td {
 
 .g-predictionChart {
     width: 330px;
-    margin-left: 10px;
 }
 
 .g-predictionTable {
-    width: 330px;
+    width: 360px;
     float: left;
-    margin-left: 10px;
 }
 
 .g-seasonNumber {
-    width: 125px;
+    color: #000;
+    background: hsl(204, 26%, 94%);
+    width: 100px;
+    text-align: left;
 }
 
 .g-prediction {

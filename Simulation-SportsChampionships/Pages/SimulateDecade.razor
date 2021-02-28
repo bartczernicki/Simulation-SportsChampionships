@@ -30,17 +30,17 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Season Year</th>
+                        <th class="g-prediction-header">Playoff Appearances</th>
                         <th>Probability - Playoff Appearances</th>
-                        <th>Probability - Cumulative Playoff Appearances</th>
+                        <th>Probability - At Least Amount of Playoff Appearances</th>
                     </tr>
                 </thead>
                 @foreach (var numberOfEvents in Enumerable.Range(0, 11))
                 {
                     <tr class="g-prediction-row">
                         <td class="g-seasonNumber">@numberOfEvents</td>
-                        <td>@( (double) this.playoffsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
-                        <td>@( (double) this.playoffsCount.Where(a => a <= numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@FormatProbability( (double) this.playoffsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@FormatProbability( (double) this.playoffsCount.Where(a => a >= numberOfEvents).Count() / numberOfSimulations)</td>
                     </tr>
                 }
             </table>
@@ -68,17 +68,17 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Season Year</th>
+                        <th class="g-prediction-header">Championships Won</th>
                         <th>Probability - Championships Won</th>
-                        <th>Probability - Cumulative Championships Won</th>
+                        <th>Probability - At Least Amount of Championships Won</th>
                     </tr>
                 </thead>
                 @foreach (var numberOfEvents in Enumerable.Range(0, 11))
                 {
                     <tr class="g-prediction-row">
                         <td class="g-seasonNumber">@numberOfEvents</td>
-                        <td>@( (double) this.championshipsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
-                        <td>@( (double) this.championshipsCount.Where(a => a <= numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@FormatProbability( (double) this.championshipsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@FormatProbability( (double) this.championshipsCount.Where(a => a >= numberOfEvents).Count() / numberOfSimulations)</td>
                     </tr>
                 }
             </table>
@@ -212,6 +212,12 @@
         }
 
         return sportsLeague;
+    }
+
+    protected string FormatProbability(double probability)
+    {
+        var fomattedProbability = Math.Round(probability, 10, MidpointRounding.AwayFromZero);
+        return string.Format("{0:P3}", fomattedProbability);
     }
 
     private async Task RenderCharts()
