@@ -7,8 +7,13 @@
   <option value="NBA2010s">NBA: 2011 - 2021 (10 Years)</option>
   <option value="NFL2010s">NFL: 2011 - 2021 (10 Years)</option>
 </select>
+<br />
 
-<button class="btn btn-primary px-2 p-1 mt-2 mb-2" @onclick="SimulateSportsDecade">Re-Simulate Decade (1,000 times)</button>
+<input id="numberOfSimulationsInput" type="range" class="" min="100" max="10000" step="200"
+        value="@this.NumberOfSimulations" @onchange="@OnNumberOfSimulationsUpdated" oninput="numberOfSimulationsOutput.value=numberOfSimulationsInput.value" />
+<output name="numberOfSimulationsOutput" id="numberOfSimulationsOutput" for="numberOfSimulationsInput">@this.NumberOfSimulations</output>
+
+<button class="btn btn-primary px-2 p-1 mt-2 mb-2" @onclick="SimulateSportsDecade">Re-Simulate Decade</button>
 
 <div class="card" style="min-height: 0px;">
     <div class="containerHeader">
@@ -30,7 +35,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="g-prediction-header">Playoff Appearances</th>
+                        <th class="g-prediction-header">Count of Playoff Appearances</th>
                         <th>Probability - Playoff Appearances</th>
                         <th>Probability - At Least Amount of Playoff Appearances</th>
                     </tr>
@@ -39,8 +44,8 @@
                 {
                     <tr class="g-prediction-row">
                         <td class="g-seasonNumber">@numberOfEvents</td>
-                        <td>@FormatProbability( (double) this.playoffsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
-                        <td>@FormatProbability( (double) this.playoffsCount.Where(a => a >= numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@FormatProbability(Decimal.Divide(this.playoffsCount.Where(a => a == numberOfEvents).Count(), NumberOfSimulations))</td>
+                        <td>@FormatProbability(Decimal.Divide(this.playoffsCount.Where(a => a >= numberOfEvents).Count(), NumberOfSimulations))</td>
                     </tr>
                 }
             </table>
@@ -68,7 +73,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="g-prediction-header">Championships Won</th>
+                        <th class="g-prediction-header">Count of Championships Won</th>
                         <th>Probability - Championships Won</th>
                         <th>Probability - At Least Amount of Championships Won</th>
                     </tr>
@@ -77,8 +82,8 @@
                 {
                     <tr class="g-prediction-row">
                         <td class="g-seasonNumber">@numberOfEvents</td>
-                        <td>@FormatProbability( (double) this.championshipsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
-                        <td>@FormatProbability( (double) this.championshipsCount.Where(a => a >= numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@FormatProbability(Decimal.Divide(this.championshipsCount.Where(a => a == numberOfEvents).Count(), NumberOfSimulations))</td>
+                        <td>@FormatProbability(Decimal.Divide(this.championshipsCount.Where(a => a >= numberOfEvents).Count(), NumberOfSimulations))</td>
                     </tr>
                 }
             </table>
@@ -88,6 +93,7 @@
 
 @code {
     public string SportsDecade { get; set; } = "NBA1960s";
+    public int NumberOfSimulations { get; set; } = 1000;
 
     // Variables
     private string cardDetailsStylePlayoffAppearances = "card-details-visible";
@@ -95,7 +101,7 @@
     private string buttonPlayoffAppearances = "[ - ]";
     private string buttonChampionships = "[ - ]";
 
-    private int numberOfSimulations = 1000;
+
 
     public bool isPlayoffTeam { get; set; } = false;
     public bool isPlayoffTeamWithBye { get; set; } = false;
@@ -134,6 +140,15 @@
 
         cardDetailsStyleChampionships = (cardDetailsStyleChampionships == "card-details-hidden") ? ("card-details-visible") : ("card-details-hidden");
         buttonChampionships = (buttonChampionships == "[ - ]") ? ("[ + ]") : ("[ - ]");
+    }
+
+    private void OnNumberOfSimulationsUpdated(ChangeEventArgs e)
+    {
+        if (int.TryParse((string)e.Value, out var index) && index >= 0)
+        {
+            this.NumberOfSimulations = index;
+            this.SimulateSportsDecade();
+        }
     }
 
     void SelectedDecadeChanged(ChangeEventArgs e)
@@ -187,7 +202,7 @@
 
         Console.WriteLine("SimulateSportsDecade - " + sportsLeague);
 
-        for (int i = 0; i != numberOfSimulations; i++)
+        for (int i = 0; i != NumberOfSimulations; i++)
         {
             var simulatedDecade = 
                 basketballSeasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, year)).ToList();
@@ -235,10 +250,10 @@
         return playerName;
     }
 
-    protected string FormatProbability(double probability)
+    protected string FormatProbability(decimal probability)
     {
         var fomattedProbability = Math.Round(probability, 10, MidpointRounding.AwayFromZero);
-        return string.Format("{0:P3}", fomattedProbability);
+        return string.Format("{0:P4}", fomattedProbability);
     }
 
     private async Task RenderCharts()
