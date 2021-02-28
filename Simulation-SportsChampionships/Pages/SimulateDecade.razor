@@ -4,7 +4,8 @@
 <label>Choose a sport decade to simulate:</label>
 <select @onchange="@SelectedDecadeChanged">
   <option value="NBA1960s">NBA: 1959 - 1968 (10 Years)</option>
-  <option value="NBA2010s">NBA: 2009 - 2008 (10 Years)</option>
+  <option value="NBA2010s">NBA: 2009 - 2018 (10 Years)</option>
+  <option value="NFL2010s">NFL: 2009 - 2018 (10 Years)</option>
 </select>
 <br />
 <button class="btn btn-primary" @onclick="SimulateSportsDecade">Re-Simulate Decade (1,000 times)</button>
@@ -86,6 +87,8 @@
 </div>
 
 @code {
+    public string SportsDecade { get; set; } = "NBA1960s";
+
     // Variables
     private string cardDetailsStylePlayoffAppearances = "card-details-visible";
     private string cardDetailsStyleChampionships = "card-details-visible";
@@ -98,7 +101,7 @@
     public bool isPlayoffTeamWithBye { get; set; } = false;
     public bool isChampionshipWinningTeam { get; set; } = false;
 
-    List<int> basketballSeasons = GetDecadeYears("NBA1960s");
+    List<int> basketballSeasons = new List<int>();
 
     private List<Simulation.SimulationOutcome> simulationOutComes = new List<Simulation.SimulationOutcome>();
     private List<Simulation.SimulationOutcome> simulatedDecades = new List<Simulation.SimulationOutcome>();
@@ -108,6 +111,7 @@
 
     protected override void OnParametersSet()
     {
+        basketballSeasons = GetDecadeYears(SportsDecade);
         this.SimulateSportsDecade();
     }
 
@@ -134,11 +138,11 @@
 
     void SelectedDecadeChanged(ChangeEventArgs e)
     {
-        var selectedSportsDecade = e.Value.ToString();
-        basketballSeasons = GetDecadeYears(selectedSportsDecade);
+        SportsDecade = e.Value.ToString();
+        basketballSeasons = GetDecadeYears(SportsDecade);
         SimulateSportsDecade();
 
-        Console.WriteLine("Selected Sports Decade: " + selectedSportsDecade);
+        Console.WriteLine("Selected Sports Decade: " + SportsDecade);
 
         StateHasChanged();
     }
@@ -155,6 +159,9 @@
             case "NBA2010s":
                 seasonYears = Enumerable.Range(2009, 10).ToList();
                 break;
+            case "NFL2010s":
+                seasonYears = Enumerable.Range(2009, 10).ToList();
+                break;
         };
 
         return seasonYears;
@@ -163,7 +170,7 @@
     private void SimulateBasketBallSeason()
     {
         Console.WriteLine("Simulate Basketball Season");
-        var basketBallSimulationOutCome = Simulation.BaketBallSeasonSimulation.GetBaskeBallSeasonSimulationOutcome(1960);
+        var basketBallSimulationOutCome = Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome("football", 2020);
         this.isPlayoffTeam = basketBallSimulationOutCome.IsPlayoffTeam;
         this.isPlayoffTeamWithBye = basketBallSimulationOutCome.IsPlayoffTeamWithBye;
         this.isChampionshipWinningTeam = basketBallSimulationOutCome.IsChampionshipWinningTeam;
@@ -176,10 +183,14 @@
         this.simulatedDecades = new List<Simulation.SimulationOutcome>();
         this.playoffsCount = new List<int>();
         this.championshipsCount = new List<int>();
+        string sportsLeague = this.GetSportsLeague(SportsDecade);
+
+        Console.WriteLine("SimulateSportsDecade - " + sportsLeague);
 
         for (int i = 0; i != numberOfSimulations; i++)
         {
-            var simulatedDecade = basketballSeasons.Select(year => Simulation.BaketBallSeasonSimulation.GetBaskeBallSeasonSimulationOutcome(year)).ToList();
+            var simulatedDecade = 
+                basketballSeasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, year)).ToList();
             simulatedDecades.AddRange(simulatedDecade);
 
             // Count playoffs and championships for each simulation
@@ -189,6 +200,18 @@
             var championshipCount = simulatedDecade.Where(a => a.IsChampionshipWinningTeam).Count();
             this.championshipsCount.Add(championshipCount);
         }
+    }
+
+    protected string GetSportsLeague(string selectedSportsDecade)
+    {
+        var sportsLeague = "basketball";
+
+        if (selectedSportsDecade == "NFL2010s")
+        {
+            sportsLeague = "football";
+        }
+
+        return sportsLeague;
     }
 
     private async Task RenderCharts()

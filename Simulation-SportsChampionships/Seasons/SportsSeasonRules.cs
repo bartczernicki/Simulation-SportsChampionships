@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace SimulationSportsChampionships.Seasons
 {
-    public static class BasketballSeasonsRules
+    public static class SportsSeasonRules
     {
-        public static BasketballSeason GetBasketballSeasonRules (int startYear)
+        public static SportsLeagueSeason GetBasketballSeasonRules (int startYear)
         {
-            var basketBallSeason = new BasketballSeason();
+            var basketBallSeason = new SportsLeagueSeason();
             basketBallSeason.StartYear = startYear;
 
             switch (startYear)
@@ -60,6 +60,26 @@ namespace SimulationSportsChampionships.Seasons
             }
 
             return basketBallSeason;
+        }
+
+        public static SportsLeagueSeason GetFootballSeasonRules(int startYear)
+        {
+            var footballSeason = new SportsLeagueSeason();
+            footballSeason.StartYear = startYear;
+
+            switch (startYear)
+            {
+                case var exp when startYear >= 2002:
+                    footballSeason.NumberofTeamsInLeague = 32;
+                    footballSeason.NumberofTeamsInLeagueInPlayoffs = 16;
+                    footballSeason.NumberofTeamsInLeagueInPlayoffsWithBye = 4;
+                    footballSeason.NumberOfPlayoffRoundsWithChampionship = 4;
+                    break;
+                default:
+                    break;
+            }
+
+            return footballSeason;
         }
     }
 }

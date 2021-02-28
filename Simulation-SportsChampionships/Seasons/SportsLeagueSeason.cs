@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace SimulationSportsChampionships.Seasons
 {
-    public class BasketballSeason
+    public class SportsLeagueSeason
     {
         private int numberofTeamsInLeague;
         private int numberofTeamsInLeagueInPlayoffs;
         private int numberofTeamsInLeagueInPlayoffsWithBye;
 
         /// <summary>
-        /// Start year of Basketball Season
+        /// Start year of Sports League Season
         /// </summary>
         /// 
         public int StartYear { get; set; }
