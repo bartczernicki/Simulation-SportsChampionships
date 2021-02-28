@@ -1,7 +1,13 @@
-﻿@page "/1959to1969"
+﻿@page "/SimulateDecade"
 @inject IJSRuntime JSRuntime
 
-<button class="btn btn-primary" @onclick="SimulateDecade">Simulate 1960s decade (1000 times)</button>
+<label>Choose a sport decade to simulate:</label>
+<select @onchange="@SelectedDecadeChanged">
+  <option value="NBA1960s">NBA: 1959 - 1968 (10 Years)</option>
+  <option value="NBA2010s">NBA: 2009 - 2008 (10 Years)</option>
+</select>
+<br />
+<button class="btn btn-primary" @onclick="SimulateSportsDecade">Re-Simulate Decade (1,000 times)</button>
 <br />
 <div class="card" style="min-height: 0px;">
     <div class="containerHeader">
@@ -80,7 +86,6 @@
 </div>
 
 @code {
-
     // Variables
     private string cardDetailsStylePlayoffAppearances = "card-details-visible";
     private string cardDetailsStyleChampionships = "card-details-visible";
@@ -93,13 +98,23 @@
     public bool isPlayoffTeamWithBye { get; set; } = false;
     public bool isChampionshipWinningTeam { get; set; } = false;
 
-    List<int> basketballSeasons =
-        Enumerable.Range(1959, 10).ToList();
+    List<int> basketballSeasons = GetDecadeYears("NBA1960s");
+
     private List<Simulation.SimulationOutcome> simulationOutComes = new List<Simulation.SimulationOutcome>();
     private List<Simulation.SimulationOutcome> simulatedDecades = new List<Simulation.SimulationOutcome>();
 
     private List<int> playoffsCount = new List<int>();
     private List<int> championshipsCount = new List<int>();
+
+    protected override void OnParametersSet()
+    {
+        this.SimulateSportsDecade();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await this.RenderCharts();
+    }
 
     private void ChangeButtonAppearancePlayoffAppearances(MouseEventArgs e)
     {
@@ -117,6 +132,34 @@
         buttonChampionships = (buttonChampionships == "[ - ]") ? ("[ + ]") : ("[ - ]");
     }
 
+    void SelectedDecadeChanged(ChangeEventArgs e)
+    {
+        var selectedSportsDecade = e.Value.ToString();
+        basketballSeasons = GetDecadeYears(selectedSportsDecade);
+        SimulateSportsDecade();
+
+        Console.WriteLine("Selected Sports Decade: " + selectedSportsDecade);
+
+        StateHasChanged();
+    }
+
+    protected static List<int> GetDecadeYears(string sportDecade)
+    {
+        List<int> seasonYears = new List<int>();
+
+        switch (sportDecade)
+        {
+            case "NBA1960s":
+                seasonYears = Enumerable.Range(1959, 10).ToList();
+                break;
+            case "NBA2010s":
+                seasonYears = Enumerable.Range(2009, 10).ToList();
+                break;
+        };
+
+        return seasonYears;
+    }
+
     private void SimulateBasketBallSeason()
     {
         Console.WriteLine("Simulate Basketball Season");
@@ -128,7 +171,7 @@
         simulationOutComes.Add(basketBallSimulationOutCome);
     }
 
-    private async Task SimulateDecade()
+    private void SimulateSportsDecade()
     {
         this.simulatedDecades = new List<Simulation.SimulationOutcome>();
         this.playoffsCount = new List<int>();
@@ -146,8 +189,6 @@
             var championshipCount = simulatedDecade.Where(a => a.IsChampionshipWinningTeam).Count();
             this.championshipsCount.Add(championshipCount);
         }
-
-        await this.RenderCharts();
     }
 
     private async Task RenderCharts()
