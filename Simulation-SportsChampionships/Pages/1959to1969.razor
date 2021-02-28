@@ -131,6 +131,8 @@
     private async Task SimulateDecade()
     {
         this.simulatedDecades = new List<Simulation.SimulationOutcome>();
+        this.playoffsCount = new List<int>();
+        this.championshipsCount = new List<int>();
 
         for (int i = 0; i != numberOfSimulations; i++)
         {
