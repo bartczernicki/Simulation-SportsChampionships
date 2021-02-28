@@ -1,39 +1,91 @@
 ﻿@page "/2009to2019"
 @inject IJSRuntime JSRuntime
 
-<!-- Create a div where the graph will take place -->
-<div id="dataVizPlayoffs" style="clear: both;">
+<button class="btn btn-primary" @onclick="SimulateDecade">Simulate 2010s decade (1000 times)</button>
+<br />
+<div class="card" style="min-height: 0px;">
+    <div class="containerHeader">
+        <div class="fixedHeader">
+            <button class="showMeButton" @onclick="ChangeButtonAppearancePlayoffAppearances">
+                @buttonPlayoffAppearances
+            </button>
+        </div>
+        <span class="verticalHeader">Playoff Appearances</span>
+    </div>
+    <div class="@cardDetailsStylePlayoffAppearances">
+        <div class="g-predictionChart">
+            <h5>Predictions - Playoff Appearances</h5>
+            <!-- Create a div where the graph will take place -->
+            <div id="dataVizPlayoffs" style="clear: both;">
+            </div>
+        </div>
+        <div class="g-predictionTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Season Year</th>
+                        <th>Probability - Playoff Appearances</th>
+                        <th>Probability - Cumulative Playoff Appearances</th>
+                    </tr>
+                </thead>
+                @foreach (var numberOfEvents in Enumerable.Range(0, 11))
+                {
+                    <tr class="g-prediction-row">
+                        <td class="g-seasonNumber">@numberOfEvents</td>
+                        <td>@( (double) this.playoffsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@( (double) this.playoffsCount.Where(a => a <= numberOfEvents).Count() / numberOfSimulations)</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 </div>
-<p/>
-<div id="dataVizChampionships" style="clear: both;">
+<br />
+<div class="card" style="min-height: 0px;">
+    <div class="containerHeader">
+        <div class="fixedHeader">
+            <button class="showMeButton" @onclick="ChangeButtonAppearanceChampionships">
+                @buttonChampionships
+            </button>
+        </div>
+        <span class="verticalHeader">Championships</span>
+    </div>
+    <div class="@cardDetailsStyleChampionships">
+        <div class="g-predictionChart">
+            <h5>Predictions - Championships Won</h5>
+            <!-- Create a div where the graph will take place -->
+            <div id="dataVizChampionships" style="clear: both;">
+            </div>
+        </div>
+        <div class="g-predictionTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Season Year</th>
+                        <th>Probability - Championships Won</th>
+                        <th>Probability - Cumulative Championships Won</th>
+                    </tr>
+                </thead>
+                @foreach (var numberOfEvents in Enumerable.Range(0, 11))
+                {
+                    <tr class="g-prediction-row">
+                        <td class="g-seasonNumber">@numberOfEvents</td>
+                        <td>@( (double) this.championshipsCount.Where(a => a == numberOfEvents).Count() / numberOfSimulations)</td>
+                        <td>@( (double) this.championshipsCount.Where(a => a <= numberOfEvents).Count() / numberOfSimulations)</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 </div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Year</th>
-            <th>Is PlayOff Team</th>
-            <th>Is Playoff Team With Bye</th>
-            <th>Is Championship Team</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var seasonYear in basketballSeasons)
-        {
-            <tr>
-                <td>@seasonYear</td>
-                <td>@( (double) simulatedDecades.Where(a => a.SeasonStartYear == seasonYear && a.IsPlayoffTeam).Count()/ numberOfSimulations)</td>
-                <td>@( (double) simulatedDecades.Where(a => a.SeasonStartYear == seasonYear && a.IsPlayoffTeamWithBye).Count()/ numberOfSimulations)</td>
-                <td>@( (double) simulatedDecades.Where(a => a.SeasonStartYear == seasonYear && a.IsChampionshipWinningTeam).Count()/numberOfSimulations)</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<button class="btn btn-primary" @onclick="SimulateBasketBallSeason">Click me</button>
-<button class="btn btn-primary" @onclick="SimulateDecade">Simulate decade (1000 times)</button>
 
 @code {
+
+    // Variables
+    private string cardDetailsStylePlayoffAppearances = "card-details-visible";
+    private string cardDetailsStyleChampionships = "card-details-visible";
+    private string buttonPlayoffAppearances = "[ - ]";
+    private string buttonChampionships = "[ - ]";
 
     private int numberOfSimulations = 1000;
 
@@ -48,6 +100,22 @@
 
     private List<int> playoffsCount = new List<int>();
     private List<int> championshipsCount = new List<int>();
+
+    private void ChangeButtonAppearancePlayoffAppearances(MouseEventArgs e)
+    {
+        var eventArgs = e;
+
+        cardDetailsStylePlayoffAppearances = (cardDetailsStylePlayoffAppearances == "card-details-hidden") ? ("card-details-visible") : ("card-details-hidden");
+        buttonPlayoffAppearances = (buttonPlayoffAppearances == "[ - ]") ? ("[ + ]") : ("[ - ]");
+    }
+
+    private void ChangeButtonAppearanceChampionships(MouseEventArgs e)
+    {
+        var eventArgs = e;
+
+        cardDetailsStyleChampionships = (cardDetailsStyleChampionships == "card-details-hidden") ? ("card-details-visible") : ("card-details-hidden");
+        buttonChampionships = (buttonChampionships == "[ - ]") ? ("[ + ]") : ("[ - ]");
+    }
 
     private void SimulateBasketBallSeason()
     {
