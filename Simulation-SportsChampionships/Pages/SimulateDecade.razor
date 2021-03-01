@@ -107,7 +107,7 @@
     public bool isPlayoffTeamWithBye { get; set; } = false;
     public bool isChampionshipWinningTeam { get; set; } = false;
 
-    List<int> basketballSeasons = new List<int>();
+    List<int> seasons = new List<int>();
 
     private List<Simulation.SimulationOutcome> simulationOutComes = new List<Simulation.SimulationOutcome>();
     private List<Simulation.SimulationOutcome> simulatedDecades = new List<Simulation.SimulationOutcome>();
@@ -117,7 +117,7 @@
 
     protected override void OnParametersSet()
     {
-        basketballSeasons = GetDecadeYears(SportsDecade);
+        seasons = GetDecadeYears(SportsDecade);
         this.SimulateSportsDecade();
     }
 
@@ -154,7 +154,7 @@
     void SelectedDecadeChanged(ChangeEventArgs e)
     {
         SportsDecade = e.Value.ToString();
-        basketballSeasons = GetDecadeYears(SportsDecade);
+        seasons = GetDecadeYears(SportsDecade);
         SimulateSportsDecade();
 
         Console.WriteLine("Selected Sports Decade: " + SportsDecade);
@@ -205,7 +205,7 @@
         for (int i = 0; i != NumberOfSimulations; i++)
         {
             var simulatedDecade = 
-                basketballSeasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, year)).ToList();
+                seasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, year)).ToList();
             simulatedDecades.AddRange(simulatedDecade);
 
             // Count playoffs and championships for each simulation
