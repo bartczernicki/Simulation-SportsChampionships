@@ -69,10 +69,16 @@ namespace SimulationSportsChampionships.Seasons
 
             switch (startYear)
             {
-                case var exp when startYear >= 2002:
+                case var exp when (startYear >= 2002 && startYear < 2021):
                     footballSeason.NumberofTeamsInLeague = 32;
-                    footballSeason.NumberofTeamsInLeagueInPlayoffs = 16;
+                    footballSeason.NumberofTeamsInLeagueInPlayoffs = 12;
                     footballSeason.NumberofTeamsInLeagueInPlayoffsWithBye = 4;
+                    footballSeason.NumberOfPlayoffRoundsWithChampionship = 4;
+                    break;
+                case 2021:
+                    footballSeason.NumberofTeamsInLeague = 32;
+                    footballSeason.NumberofTeamsInLeagueInPlayoffs = 14;
+                    footballSeason.NumberofTeamsInLeagueInPlayoffsWithBye = 2;
                     footballSeason.NumberOfPlayoffRoundsWithChampionship = 4;
                     break;
                 default:
