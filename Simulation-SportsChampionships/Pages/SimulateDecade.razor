@@ -5,6 +5,7 @@
 <select @onchange="@SelectedDecadeChanged">
   <option value="NBA1960s">NBA: 1959 - 1969 (10 Years)</option>
   <option value="NBA2010s">NBA: 2011 - 2021 (10 Years)</option>
+  <option value="NFL1970s">NFL: 1970 - 1980 (10 Years)</option>
   <option value="NFL2010s">NFL: 2011 - 2021 (10 Years)</option>
 </select>
 <br />
@@ -174,6 +175,9 @@
             case "NBA2010s":
                 seasonYears = Enumerable.Range(2011, 10).ToList();
                 break;
+            case "NFL1970s":
+                seasonYears = Enumerable.Range(1970, 10).ToList();
+                break;
             case "NFL2010s":
                 seasonYears = Enumerable.Range(2011, 10).ToList();
                 break;
@@ -221,7 +225,7 @@
     {
         var sportsLeague = "basketball";
 
-        if (selectedSportsDecade == "NFL2010s")
+        if ((selectedSportsDecade == "NFL1970s") || (selectedSportsDecade == "NFL2010s"))
         {
             sportsLeague = "football";
         }
