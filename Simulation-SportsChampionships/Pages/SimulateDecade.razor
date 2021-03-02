@@ -10,7 +10,7 @@
 </select>
 <br />
 
-<input id="numberOfSimulationsInput" type="range" class="" min="100" max="10000" step="200"
+<input id="numberOfSimulationsInput" type="range" class="" min="100" max="10000" step="100"
         value="@this.NumberOfSimulations" @onchange="@OnNumberOfSimulationsUpdated" oninput="numberOfSimulationsOutput.value=numberOfSimulationsInput.value" />
 <output name="numberOfSimulationsOutput" id="numberOfSimulationsOutput" for="numberOfSimulationsInput">@this.NumberOfSimulations</output>
 
