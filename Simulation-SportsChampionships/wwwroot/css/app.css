@@ -167,10 +167,10 @@ showMeButton:focus {
     /*    width: 120px;*/
 }
 
-    .fixedHeader h5 {
-        display: table-cell;
-        vertical-align: middle
-    }
+.fixedHeader h5 {
+    display: table-cell;
+    vertical-align: middle
+}
 
 .flex-itemHeader {
     flex-grow: 1;
@@ -244,22 +244,36 @@ td {
     border-bottom: solid 1px #dedede;
 }
 
+.g-predictionRow {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
 .g-predictionChart {
-    width: 330px;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 .g-predictionTable {
-    width: 360px;
-    float: left;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 .g-seasonNumber {
     color: #000;
     background: hsl(204, 26%, 94%);
-    width: 100px;
+    min-width: 100px;
     text-align: left;
 }
 
 .g-prediction {
-    width: 100px;
+    min-width: 100px;
 }

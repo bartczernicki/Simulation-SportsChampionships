@@ -60,8 +60,10 @@ function createD3SvgObject(data, mean, divName, title) {
     var svg = d3
         .select(divSelector)
         .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            //.attr("width", width + margin.left + margin.right)
+            //.attr("height", height + margin.top + margin.bottom)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 370 460")
             .style('background-color', 'WhiteSmoke')
         .append("g")
             .attr('class', 'bars')

@@ -26,30 +26,36 @@
         <span class="verticalHeader">Playoff Appearances</span>
     </div>
     <div class="@cardDetailsStylePlayoffAppearances">
-        <div class="g-predictionChart">
-            <h5>Predictions - Playoff Appearances</h5>
-            <!-- Create a div where the graph will take place -->
-            <div id="dataVizPlayoffs" style="clear: both;">
+        <h5>Predictions - Playoff Appearances</h5>
+        <div class="g-predictionRow">
+            <div class="col-md-6 col-xl-6">
+                <div class="g-predictionChart">
+                    <!-- Create a div where the graph will take place -->
+                    <div id="dataVizPlayoffs" style="max-width: 370px">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="g-predictionTable">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="g-prediction-header">Count of Playoff Appearances</th>
-                        <th>Probability - Playoff Appearances</th>
-                        <th>Probability - At Least Amount of Playoff Appearances</th>
-                    </tr>
-                </thead>
-                @foreach (var numberOfEvents in Enumerable.Range(0, 11))
-                {
-                    <tr class="g-prediction-row">
-                        <td class="g-seasonNumber">@numberOfEvents</td>
-                        <td>@FormatProbability(Decimal.Divide(this.playoffsCount.Where(a => a == numberOfEvents).Count(), NumberOfSimulations))</td>
-                        <td>@FormatProbability(Decimal.Divide(this.playoffsCount.Where(a => a >= numberOfEvents).Count(), NumberOfSimulations))</td>
-                    </tr>
-                }
-            </table>
+            <div class="col-md-6 col-xl-6">
+                <div class="g-predictionTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="g-prediction-header">Count of Playoff Appearances</th>
+                                <th>Probability - Playoff Appearances</th>
+                                <th>Probability - At Least Amount of Playoff Appearances</th>
+                            </tr>
+                        </thead>
+                        @foreach (var numberOfEvents in Enumerable.Range(0, 11))
+                        {
+                            <tr class="g-prediction-row">
+                                <td class="g-seasonNumber">@numberOfEvents</td>
+                                <td>@FormatProbability(Decimal.Divide(this.playoffsCount.Where(a => a == numberOfEvents).Count(), NumberOfSimulations))</td>
+                                <td>@FormatProbability(Decimal.Divide(this.playoffsCount.Where(a => a >= numberOfEvents).Count(), NumberOfSimulations))</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -64,30 +70,36 @@
         <span class="verticalHeader">Championships Won</span>
     </div>
     <div class="@cardDetailsStyleChampionships">
-        <div class="g-predictionChart">
-            <h5>Predictions - Championships Won</h5>
-            <!-- Create a div where the graph will take place -->
-            <div id="dataVizChampionships" style="clear: both;">
+        <h5>Predictions - ChampionShips Won</h5>
+        <div class="g-predictionRow">
+            <div class="col-md-6 col-xl-6">
+                <div class="g-predictionChart">
+                    <!-- Create a div where the graph will take place -->
+                    <div id="dataVizChampionships" style="max-width: 370px">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="g-predictionTable">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="g-prediction-header">Count of Championships Won</th>
-                        <th>Probability - Championships Won</th>
-                        <th>Probability - At Least Amount of Championships Won</th>
-                    </tr>
-                </thead>
-                @foreach (var numberOfEvents in Enumerable.Range(0, 11))
-                {
-                    <tr class="g-prediction-row">
-                        <td class="g-seasonNumber">@numberOfEvents</td>
-                        <td>@FormatProbability(Decimal.Divide(this.championshipsCount.Where(a => a == numberOfEvents).Count(), NumberOfSimulations))</td>
-                        <td>@FormatProbability(Decimal.Divide(this.championshipsCount.Where(a => a >= numberOfEvents).Count(), NumberOfSimulations))</td>
-                    </tr>
-                }
-            </table>
+            <div class="col-md-6 col-xl-6">
+                <div class="g-predictionTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="g-prediction-header">Count of Championships Won</th>
+                                <th>Probability - Championships Won</th>
+                                <th>Probability - At Least Amount of Championships Won</th>
+                            </tr>
+                        </thead>
+                        @foreach (var numberOfEvents in Enumerable.Range(0, 11))
+                        {
+                            <tr class="g-prediction-row">
+                                <td class="g-seasonNumber">@numberOfEvents</td>
+                                <td>@FormatProbability(Decimal.Divide(this.championshipsCount.Where(a => a == numberOfEvents).Count(), NumberOfSimulations))</td>
+                                <td>@FormatProbability(Decimal.Divide(this.championshipsCount.Where(a => a >= numberOfEvents).Count(), NumberOfSimulations))</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
