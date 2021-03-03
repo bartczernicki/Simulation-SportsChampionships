@@ -220,7 +220,7 @@
 
         for (int i = 0; i != NumberOfSimulations; i++)
         {
-            var simulatedDecade = 
+            var simulatedDecade =
                 seasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, year)).ToList();
             simulatedDecades.AddRange(simulatedDecade);
 
@@ -231,6 +231,16 @@
             var championshipCount = simulatedDecade.Where(a => a.IsChampionshipWinningTeam).Count();
             this.championshipsCount.Add(championshipCount);
         }
+
+        //List<double> playOffCounts = new List<double>();
+        //foreach (var numberOfEvents in Enumerable.Range(0, 11))
+        //{
+        //    playOffCounts.Add(
+        //        (double)this.playoffsCount.Where(a => a == numberOfEvents).Count() / NumberOfSimulations
+        //        );
+        //}
+
+        //var test = MathNet.Numerics.Statistics.Statistics.(playOffCounts);
     }
 
     protected string GetSportsLeague(string selectedSportsDecade)
