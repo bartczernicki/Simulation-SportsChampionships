@@ -7,15 +7,27 @@ namespace SimulationSportsChampionships.Seasons
 {
     public class SportsLeagueSeason
     {
+        // General
         private int numberofTeamsInLeague;
         private int numberofTeamsInLeagueInPlayoffs;
         private int numberofTeamsInLeagueInPlayoffsWithBye;
+
+        // Division Edge Cases for NBA 1961-1965
+        private int numberofTeamsInDivision;
+        private int numberOfTeamsInDivisionInPlayoffs;
 
         /// <summary>
         /// Start year of Sports League Season
         /// </summary>
         /// 
         public int StartYear { get; set; }
+
+        public int NumberofTeamsInDivision
+        {
+            get { return numberofTeamsInDivision; }
+            set { numberofTeamsInDivision = value; }
+        }
+
         /// <summary>
         /// Count of number of all of the teams in the NBA
         /// </summary>
@@ -23,6 +35,15 @@ namespace SimulationSportsChampionships.Seasons
         {
             get { return numberofTeamsInLeague; }
             set { numberofTeamsInLeague = value; }
+        }
+
+        /// <summary>
+        /// Count of number of the teams in the division
+        /// </summary>
+        public int NumberofTeamsInDivisionInPlayoffs
+        {
+            get { return numberOfTeamsInDivisionInPlayoffs; }
+            set { numberOfTeamsInDivisionInPlayoffs = value; }
         }
 
         /// <summary>
@@ -49,7 +70,17 @@ namespace SimulationSportsChampionships.Seasons
         /// </summary>
         public double ProbabilityOfPlayoffs
         { 
-            get { return (double) this.numberofTeamsInLeagueInPlayoffs / this.numberofTeamsInLeague; }
+            get 
+            {
+                if (this.UseDivisionForPlayoffs)
+                {
+                    return (double)this.numberOfTeamsInDivisionInPlayoffs / this.numberofTeamsInDivision;
+                }
+                else
+                {
+                    return (double)this.numberofTeamsInLeagueInPlayoffs / this.numberofTeamsInLeague;
+                }
+            }
         }
 
         /// <summary>
@@ -64,5 +95,7 @@ namespace SimulationSportsChampionships.Seasons
         /// Number of rounds to championship
         /// </summary>
         public int NumberOfPlayoffRoundsWithChampionship { get; set; }
+
+        public bool UseDivisionForPlayoffs { get; set; } = false;
     }
 }

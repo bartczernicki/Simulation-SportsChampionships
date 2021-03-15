@@ -11,6 +11,8 @@ namespace SimulationSportsChampionships.Seasons
         {
             var basketBallSeason = new SportsLeagueSeason();
             basketBallSeason.StartYear = startYear;
+            // Use General playoff probability
+            var useDivisionForPlayoffs = false;
 
             switch (startYear)
             {
@@ -26,6 +28,12 @@ namespace SimulationSportsChampionships.Seasons
                 case 1963:
                 case 1964:
                 case 1965:
+                    // New playoff model with additional West team.
+                    // East had 3 of 4 teams make playoffs, West had 3 of 5 teams make playoffs.
+                    basketBallSeason.UseDivisionForPlayoffs = true;
+                    basketBallSeason.NumberofTeamsInDivisionInPlayoffs = 3;
+                    basketBallSeason.NumberofTeamsInDivision = 4;
+
                     basketBallSeason.NumberofTeamsInLeague = 9;
                     basketBallSeason.NumberofTeamsInLeagueInPlayoffs = 6;
                     basketBallSeason.NumberofTeamsInLeagueInPlayoffsWithBye = 2;
