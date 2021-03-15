@@ -7,12 +7,26 @@ namespace SimulationSportsChampionships.Seasons
 {
     public static class SportsSeasonRules
     {
-        public static SportsLeagueSeason GetBasketballSeasonRules (int startYear)
+        public static SportsLeagueSeason GetBasketballSeasonRules (int startYear, string division)
         {
             var basketBallSeason = new SportsLeagueSeason();
             basketBallSeason.StartYear = startYear;
-            // Use General playoff probability
-            var useDivisionForPlayoffs = false;
+
+            if (division == "East")
+            {
+                // East had 3 of 4 teams make playoffs, West had 3 of 5 teams make playoffs.
+                basketBallSeason.UseDivisionForPlayoffs = true;
+                basketBallSeason.NumberofTeamsInDivisionInPlayoffs = 3;
+                basketBallSeason.NumberofTeamsInDivision = 4;
+            }
+            else // West
+            {
+                // East had 3 of 4 teams make playoffs, West had 3 of 5 teams make playoffs.
+                basketBallSeason.UseDivisionForPlayoffs = false;
+                basketBallSeason.NumberofTeamsInDivisionInPlayoffs = 3;
+                basketBallSeason.NumberofTeamsInDivision = 5;
+            }
+
 
             switch (startYear)
             {
@@ -29,11 +43,6 @@ namespace SimulationSportsChampionships.Seasons
                 case 1964:
                 case 1965:
                     // New playoff model with additional West team.
-                    // East had 3 of 4 teams make playoffs, West had 3 of 5 teams make playoffs.
-                    basketBallSeason.UseDivisionForPlayoffs = true;
-                    basketBallSeason.NumberofTeamsInDivisionInPlayoffs = 3;
-                    basketBallSeason.NumberofTeamsInDivision = 4;
-
                     basketBallSeason.NumberofTeamsInLeague = 9;
                     basketBallSeason.NumberofTeamsInLeagueInPlayoffs = 6;
                     basketBallSeason.NumberofTeamsInLeagueInPlayoffsWithBye = 2;

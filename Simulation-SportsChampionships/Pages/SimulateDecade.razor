@@ -3,7 +3,8 @@
 
 <label>Choose a sport decade to simulate:</label>
 <select @onchange="@SelectedDecadeChanged">
-  <option value="NBA1960s">NBA: 1959 - 1969 (10 Years)</option>
+  <option value="NBA1960s-East">NBA (East Division): 1959 - 1969 (10 Years)</option>
+  <option value="NBA1960s-West">NBA (West Division): 1959 - 1969 (10 Years)</option>
   <option value="NBA2010s">NBA: 2011 - 2021 (10 Years)</option>
   <option value="NFL1970s">NFL: 1970 - 1980 (10 Years)</option>
   <option value="NFL2010s">NFL: 2011 - 2021 (10 Years)</option>
@@ -105,7 +106,7 @@
 </div>
 
 @code {
-    public string SportsDecade { get; set; } = "NBA1960s";
+    public string SportsDecade { get; set; } = "NBA1960s-East";
     public int NumberOfSimulations { get; set; } = 1000;
 
     // Variables
@@ -181,7 +182,8 @@
 
         switch (sportDecade)
         {
-            case "NBA1960s":
+            case "NBA1960s-East":
+            case "NBA1960s-West":
                 seasonYears = Enumerable.Range(1959, 10).ToList();
                 break;
             case "NBA2010s":
@@ -201,7 +203,7 @@
     private void SimulateBasketBallSeason()
     {
         Console.WriteLine("Simulate Basketball Season");
-        var basketBallSimulationOutCome = Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome("football", 2020);
+        var basketBallSimulationOutCome = Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome("football", string.Empty, 2020);
         this.isPlayoffTeam = basketBallSimulationOutCome.IsPlayoffTeam;
         this.isPlayoffTeamWithBye = basketBallSimulationOutCome.IsPlayoffTeamWithBye;
         this.isChampionshipWinningTeam = basketBallSimulationOutCome.IsChampionshipWinningTeam;
@@ -216,14 +218,15 @@
         this.simulatedDecades = new List<Simulation.SimulationOutcome>();
         this.playoffsCount = new List<int>();
         this.championshipsCount = new List<int>();
-        string sportsLeague = this.GetSportsLeague(SportsDecade);
+        var sportsLeague = this.GetSportsLeague(SportsDecade);
+        var sportsLeagueDivision = GetSportsLeagueDivision(SportsDecade);
 
         Console.WriteLine("SimulateSportsDecade - " + sportsLeague + " | NumberOfSimulations: " + NumberOfSimulations);
 
         for (int i = 0; i != NumberOfSimulations; i++)
         {
             var simulatedDecade =
-                seasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, year)).ToList();
+                seasons.Select(year => Simulation.SportsLeagueSeasonSimulation.GetSportsLeagueSimulationOutcome(sportsLeague, sportsLeagueDivision, year)).ToList();
             simulatedDecades.AddRange(simulatedDecade);
 
             // Count playoffs and championships for each simulation
@@ -250,13 +253,29 @@
         return sportsLeague;
     }
 
+    protected string GetSportsLeagueDivision(string selectedSportsDecade)
+    {
+        var sportsLeagueDivision = string.Empty;
+
+        if (selectedSportsDecade == "NBA1960s-East")
+        {
+            sportsLeagueDivision = "East";
+        }
+        else
+        {
+            sportsLeagueDivision = "West";
+        }
+
+        return sportsLeagueDivision;
+    }
+
     protected string GetSportsLeagueDecadeLegend(string selectedSportsDecade)
     {
         var playerName = string.Empty;
 
         switch (selectedSportsDecade)
         {
-            case "NBA1960s":
+            case "NBA1960s-East":
                 playerName = "Bill Russell";
                 break;
             case "NBA2010s":

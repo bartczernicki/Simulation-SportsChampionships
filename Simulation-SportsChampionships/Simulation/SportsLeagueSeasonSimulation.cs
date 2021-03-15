@@ -12,7 +12,7 @@ namespace SimulationSportsChampionships.Simulation
 {
     public static class SportsLeagueSeasonSimulation
     {
-        public static SimulationOutcome GetSportsLeagueSimulationOutcome(string sportsLeague, int seasonStartYear)
+        public static SimulationOutcome GetSportsLeagueSimulationOutcome(string sportsLeague, string division, int seasonStartYear)
         {
             var randomSeed = SystemRandomSource.Default;
 
@@ -31,7 +31,7 @@ namespace SimulationSportsChampionships.Simulation
             }
             else
             {
-                sportsLeagueRules = Seasons.SportsSeasonRules.GetBasketballSeasonRules(seasonStartYear);
+                sportsLeagueRules = Seasons.SportsSeasonRules.GetBasketballSeasonRules(seasonStartYear, division);
             }
 
             // Simulate if made playoffs
