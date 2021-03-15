@@ -64,7 +64,7 @@ function createD3SvgObject(data, mean, divName, title) {
             //.attr("height", height + margin.top + margin.bottom)
             .attr("preserveAspectRatio", "xMinYMin meet")
             .attr("viewBox", "0 0 370 460")
-            .style('background-color', 'WhiteSmoke')
+            .style('background-color', 'Ghostwhite')
         .append("g")
             .attr('class', 'bars')
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
