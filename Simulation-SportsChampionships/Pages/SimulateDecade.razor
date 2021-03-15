@@ -28,14 +28,14 @@
     <div class="@cardDetailsStylePlayoffAppearances">
         <h5>Predictions - Playoff Appearances</h5>
         <div class="g-predictionRow">
-            <div class="col-md-6 col-xl-6">
+            <div style="width: 400px;">
                 <div class="g-predictionChart">
                     <!-- Create a div where the graph will take place -->
                     <div id="dataVizPlayoffs" style="max-width: 370px">
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-xl-6">
+            <div style="flex: 1;">
                 <div class="g-predictionTable">
                     <table>
                         <thead>
@@ -72,14 +72,14 @@
     <div class="@cardDetailsStyleChampionships">
         <h5>Predictions - ChampionShips Won</h5>
         <div class="g-predictionRow">
-            <div class="col-md-6 col-xl-6">
+            <div style="width: 400px;">
                 <div class="g-predictionChart">
                     <!-- Create a div where the graph will take place -->
                     <div id="dataVizChampionships" style="max-width: 370px">
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-xl-6">
+            <div style="flex: 1;">
                 <div class="g-predictionTable">
                     <table>
                         <thead>
@@ -211,12 +211,14 @@
 
     private void SimulateSportsDecade()
     {
+        var dateTimeStart = DateTime.Now;
+
         this.simulatedDecades = new List<Simulation.SimulationOutcome>();
         this.playoffsCount = new List<int>();
         this.championshipsCount = new List<int>();
         string sportsLeague = this.GetSportsLeague(SportsDecade);
 
-        Console.WriteLine("SimulateSportsDecade - " + sportsLeague);
+        Console.WriteLine("SimulateSportsDecade - " + sportsLeague + " | NumberOfSimulations: " + NumberOfSimulations);
 
         for (int i = 0; i != NumberOfSimulations; i++)
         {
@@ -232,15 +234,8 @@
             this.championshipsCount.Add(championshipCount);
         }
 
-        //List<double> playOffCounts = new List<double>();
-        //foreach (var numberOfEvents in Enumerable.Range(0, 11))
-        //{
-        //    playOffCounts.Add(
-        //        (double)this.playoffsCount.Where(a => a == numberOfEvents).Count() / NumberOfSimulations
-        //        );
-        //}
-
-        //var test = MathNet.Numerics.Statistics.Statistics.(playOffCounts);
+        TimeSpan timeSpanDuration = DateTime.Now.Subtract(dateTimeStart);
+        Console.WriteLine("SimulateSportsDecade - Duration: " + timeSpanDuration.TotalMilliseconds);
     }
 
     protected string GetSportsLeague(string selectedSportsDecade)
