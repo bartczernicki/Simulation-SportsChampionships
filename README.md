@@ -8,4 +8,4 @@ This allows a user to quickly analyze the probabilities of making the playoffs o
 
 **Note:** Both sites work on mobile devices with enough RAM. Early 2018 phone models should work. For example, iPhone 8 Plus will give a stack memory error iPhone X, 11 and 12 will work fine.
 
-![Simulation-SportsChampionships](https://github.com/bartczernicki/Test-Blazor-WebAssembly-StatisticsAndML/raw/master/AppScreenShotDotNet5.png)
+![Simulation-SportsChampionships](https://github.com/bartczernicki/Simulation-SportsChampionships/blob/master/GitHubResources/SportsLeagueSimulator.png)
