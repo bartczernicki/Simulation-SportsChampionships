@@ -1,6 +1,3 @@
-# Simulation-SportsChampionships
-Using statistical monte carlo simulations, determine how easy it was to make the playoffs or win a championship in a particular sports league decade (basketball, football).
-
 **Simulation-SportsChampionships**
 is a test Blazor WASM (WebAssembly) applicaion that showcases how to perform basic monte carlo simulations with specific rules.
 This allows a user to quickly analyze the probabilities of making the playoffs or winning a championship in a particular sports decade.
