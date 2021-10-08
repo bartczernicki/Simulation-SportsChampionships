@@ -221,6 +221,10 @@ h5 {
     background: hsl(204, 26%, 94%);*/
 }
 
+.g-prediction-row-bold {
+    font-weight: bold;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
