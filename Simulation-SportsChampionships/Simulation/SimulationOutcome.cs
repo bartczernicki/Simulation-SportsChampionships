@@ -7,7 +7,7 @@ namespace SimulationSportsChampionships.Simulation
 {
     public class SimulationOutcome
     {
-        public string SimulationID { get; set; }
+        public string? SimulationID { get; set; }
         public int SeasonStartYear { get; set; }
         public bool IsPlayoffTeam { get; set; } = false;
         public bool IsPlayoffTeamWithBye { get; set; } = false;

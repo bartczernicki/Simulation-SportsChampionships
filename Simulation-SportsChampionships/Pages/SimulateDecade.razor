@@ -49,7 +49,7 @@
                         @foreach (var numberOfEvents in Enumerable.Range(0, 11))
                         {
                             var countOfPlayoffsMade = this.playoffsCount.Where(a => a == numberOfEvents).Count();
-                            var maxPlayoffsMade = this.playoffsCount.GroupBy(a => a).OrderByDescending(b => b.Count()).FirstOrDefault().Count();
+                            var maxPlayoffsMade = this.playoffsCount!.GroupBy(a => a).OrderByDescending(b => b.Count()).FirstOrDefault().Count();
                             var predictionRowStyle = (countOfPlayoffsMade == maxPlayoffsMade) ? "g-prediction-row-bold" : "g-prediction-row";
 
                             <tr class="@predictionRowStyle">
@@ -166,7 +166,7 @@
 
     private void OnNumberOfSimulationsUpdated(ChangeEventArgs e)
     {
-        if (int.TryParse((string)e.Value, out var index) && index >= 0)
+        if (int.TryParse((string) e.Value!, out var index) && index >= 0)
         {
             this.NumberOfSimulations = index;
             this.SimulateSportsDecade();
@@ -175,13 +175,17 @@
 
     void SelectedDecadeChanged(ChangeEventArgs e)
     {
-        SportsDecade = e.Value.ToString();
-        seasons = GetDecadeYears(SportsDecade);
-        SimulateSportsDecade();
+        if (e is not null)
+        {
+            SportsDecade = e.Value.ToString();
+            seasons = GetDecadeYears(SportsDecade!);
+            SimulateSportsDecade();
 
-        Console.WriteLine("Selected Sports Decade: " + SportsDecade);
+            Console.WriteLine("Selected Sports Decade: " + SportsDecade);
 
-        StateHasChanged();
+            StateHasChanged();
+        }
+
     }
 
     protected static List<int> GetDecadeYears(string sportDecade)
