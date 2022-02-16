@@ -49,13 +49,14 @@
                         @foreach (var numberOfEvents in Enumerable.Range(0, 11))
                         {
                             var countOfPlayoffsMade = this.playoffsCount.Where(a => a == numberOfEvents).Count();
+                            var countOfPlayoffsMadeUpTo = this.playoffsCount.Where(a => a <= numberOfEvents).Count();
                             var maxPlayoffsMade = this.playoffsCount!.GroupBy(a => a).OrderByDescending(b => b.Count()).FirstOrDefault().Count();
                             var predictionRowStyle = (countOfPlayoffsMade == maxPlayoffsMade) ? "g-prediction-row-bold" : "g-prediction-row";
 
                             <tr class="@predictionRowStyle">
                                 <td class="g-seasonNumber">@numberOfEvents</td>
                                 <td>@FormatProbability(Decimal.Divide(countOfPlayoffsMade, NumberOfSimulations))</td>
-                                <td>@FormatProbability(Decimal.Divide(countOfPlayoffsMade, NumberOfSimulations))</td>
+                                <td>@FormatProbability(Decimal.Divide((NumberOfSimulations - countOfPlayoffsMadeUpTo), NumberOfSimulations))</td>
                             </tr>
                         }
                     </table>
@@ -97,13 +98,14 @@
                         @foreach (var numberOfEvents in Enumerable.Range(0, 11))
                         {
                             var countOfChampionships = this.championshipsCount.Where(a => a == numberOfEvents).Count();
+                            var countOfChampionshipsUpTo = this.championshipsCount.Where(a => a <= numberOfEvents).Count();
                             var maxChampionShips = this.championshipsCount.GroupBy(a => a).OrderByDescending(b => b.Count()).FirstOrDefault().Count();
                             var predictionRowStyle = (countOfChampionships == maxChampionShips) ? "g-prediction-row-bold" : "g-prediction-row";
 
                             <tr class="@predictionRowStyle">
                                 <td class="g-seasonNumber">@numberOfEvents </td>
                                 <td>@FormatProbability(Decimal.Divide(countOfChampionships, NumberOfSimulations))</td>
-                                <td>@FormatProbability(Decimal.Divide(countOfChampionships, NumberOfSimulations))</td>
+                                <td>@FormatProbability(Decimal.Divide((NumberOfSimulations - countOfChampionshipsUpTo), NumberOfSimulations))</td>
                             </tr>
                         }
                     </table>
