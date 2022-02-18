@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>SimulationSportsChampionships</AssemblyName>
     <RootNamespace>SimulationSportsChampionships</RootNamespace>
     <Nullable>enable</Nullable>
@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="5.0.0-alpha02" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0-alpha09" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.1.22109.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.1.22109.13" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
