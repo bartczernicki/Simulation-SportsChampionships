@@ -177,9 +177,10 @@
 
     void SelectedDecadeChanged(ChangeEventArgs e)
     {
-        if (e is not null)
+        var eventAargs = e;
+        if (eventAargs is not null)
         {
-            SportsDecade = e.Value.ToString();
+            SportsDecade = eventAargs!.Value.ToString();
             seasons = GetDecadeYears(SportsDecade!);
             SimulateSportsDecade();
 
