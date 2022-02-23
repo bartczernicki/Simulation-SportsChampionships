@@ -216,15 +216,6 @@ h5 {
     text-align: left;
 }
 
-.g-prediction-row {
-/*    color: #000;
-    background: hsl(204, 26%, 94%);*/
-}
-
-.g-prediction-row-bold {
-    font-weight: bold;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -253,6 +244,23 @@ td {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+}
+
+.g-prediction-row {
+    /*    color: #000;
+    background: hsl(204, 26%, 94%);*/
+}
+
+.g-prediction-row-bold {
+    font-weight: bold;
+}
+
+.g-prediction-row:hover {
+    background-color: lightgreen;
+}
+
+.g-prediction-row-bold:hover {
+    background-color: lightgreen;
 }
 
 .g-predictionChart {
