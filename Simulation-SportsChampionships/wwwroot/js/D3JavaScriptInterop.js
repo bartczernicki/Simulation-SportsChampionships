@@ -1,4 +1,7 @@
-﻿function countUnique(iterable) {
+﻿let dataVizPlayoffsData = []
+let dataVizChampionshipsData = []
+
+function countUnique(iterable) {
     return new Set(iterable).size;
 }
 
@@ -6,10 +9,48 @@ function formatPower(x) {
     return x;
 }
 
-function createD3SvgObject(data, mean, divName, title) {
+function tablemouseoverChampionships() {
+    updateD3Histogram(event.target.innerText, "dataVizChampionships");
+}
 
-    console.log(data);
+function tablemouseoverPlayoffs() {
+    updateD3Histogram(event.target.innerText, "dataVizPlayoffs");
+}
+
+function updateD3Histogram(rowInnerText, divName) {
+
+    console.log(rowInnerText);
     console.log(divName);
+
+    var threshhold = event.target.innerText.split("\t")[0];
+    var divSelector = "#" + divName;
+
+    var svg = d3.select(divSelector).select("svg");
+
+    var bar = svg
+        .selectAll("rect")
+        .style("fill", function (d) {
+            if (d.x0 < threshhold) { return "orange" } else { return "#69b3a2" }
+        });
+}
+
+function createD3SvgObject(data, mean, divName, title, threshhold) {
+
+    if (divName == "dataVizPlayoffs") {
+        dataVizPlayoffsData = data;
+        console.log(dataVizPlayoffsData);
+    }
+    else if (divName == "dataVizChampionships") {
+        dataVizChampionshipsData = data;
+        console.log(dataVizChampionshipsData);
+    }
+    else {
+        data = dataVizPlayoffsData;
+    }
+
+    console.log(divName);
+    console.log(threshhold);
+    console.log(data);
 
     //https://datacadamia.com/viz/d3/histogram#instantiation
     //http://bl.ocks.org/nnattawat/8916402
@@ -139,7 +180,8 @@ function createD3SvgObject(data, mean, divName, title) {
             return 0;
         })
         .style("fill", function (d) {
-            return colorScale(d.length)
+            if (d.x0 < mean) { return "orange" } else { return "#69b3a2" }
+            //return colorScale(d.length)
         });
 
     // Animations

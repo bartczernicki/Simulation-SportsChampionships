@@ -51,9 +51,11 @@
                             var countOfPlayoffsMade = this.playoffsCount.Where(a => a == numberOfEvents).Count();
                             var countOfPlayoffsMadeUpTo = this.playoffsCount.Where(a => a <= numberOfEvents).Count();
                             var maxPlayoffsMade = this.playoffsCount!.GroupBy(a => a).OrderByDescending(b => b.Count()).FirstOrDefault().Count();
+                            var playoffsCountMean = Math.Round(this.playoffsCount.Average(), 2, MidpointRounding.AwayFromZero);
+
                             var predictionRowStyle = (countOfPlayoffsMade == maxPlayoffsMade) ? "g-prediction-row-bold" : "g-prediction-row";
 
-                            <tr class="@predictionRowStyle">
+                            <tr class="@predictionRowStyle" onmouseenter='tablemouseoverPlayoffs()'>
                                 <td class="g-seasonNumber">@numberOfEvents</td>
                                 <td>@FormatProbability(Decimal.Divide(countOfPlayoffsMade, NumberOfSimulations))</td>
                                 <td>@FormatProbability(Decimal.Divide((NumberOfSimulations - countOfPlayoffsMadeUpTo), NumberOfSimulations))</td>
@@ -102,7 +104,7 @@
                             var maxChampionShips = this.championshipsCount.GroupBy(a => a).OrderByDescending(b => b.Count()).FirstOrDefault().Count();
                             var predictionRowStyle = (countOfChampionships == maxChampionShips) ? "g-prediction-row-bold" : "g-prediction-row";
 
-                            <tr class="@predictionRowStyle">
+                            <tr class="@predictionRowStyle" onmouseenter='tablemouseoverChampionships()'>
                                 <td class="g-seasonNumber">@numberOfEvents </td>
                                 <td>@FormatProbability(Decimal.Divide(countOfChampionships, NumberOfSimulations))</td>
                                 <td>@FormatProbability(Decimal.Divide((NumberOfSimulations - countOfChampionshipsUpTo), NumberOfSimulations))</td>
@@ -316,7 +318,7 @@
         var playoffsCountMean = Math.Round(this.playoffsCount.Average(), 2, MidpointRounding.AwayFromZero);
         var championshipsCountMean = Math.Round(this.championshipsCount.Average(), 2, MidpointRounding.AwayFromZero);
 
-        await JSRuntime.InvokeVoidAsync("createD3SvgObject", this.playoffsCount, playoffsCountMean, "dataVizPlayoffs", "Playoff Appearances");
-        await JSRuntime.InvokeVoidAsync("createD3SvgObject", this.championshipsCount, championshipsCountMean, "dataVizChampionships", "Championships Won");
+        await JSRuntime.InvokeVoidAsync("createD3SvgObject", this.playoffsCount, playoffsCountMean, "dataVizPlayoffs", "Playoff Appearances", -1);
+        await JSRuntime.InvokeVoidAsync("createD3SvgObject", this.championshipsCount, championshipsCountMean, "dataVizChampionships", "Championships Won", -1);
     }
 }
